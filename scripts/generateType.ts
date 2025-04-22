@@ -1,5 +1,6 @@
 import { flatConfigsToRulesDTS } from 'eslint-typegen/core'
 import { default as pluginPerfectionist } from 'eslint-plugin-perfectionist'
+import {writeFileSync} from "node:fs"
 
 const config = {
     name: 'test',
@@ -11,6 +12,6 @@ const config = {
     }
 }
 
-await flatConfigsToRulesDTS([config], { // Should fail here
+writeFileSync("typegen.d.ts", await flatConfigsToRulesDTS([config], {
   includeAugmentation: false,
-})
+}))
