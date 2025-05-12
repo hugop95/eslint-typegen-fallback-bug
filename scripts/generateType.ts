@@ -1,17 +1,17 @@
-import { flatConfigsToRulesDTS } from 'eslint-typegen/core'
-import { default as pluginPerfectionist } from 'eslint-plugin-perfectionist'
+import { pluginsToRulesDTS } from 'eslint-typegen/core'
 import {writeFileSync} from "node:fs"
 
-const config = {
-    name: 'test',
-    plugins: {
-        perfectionist: pluginPerfectionist,
-    },
-    rules: {
-        'perfectionist/sort-imports': ['error']
+writeFileSync("typegen.d.ts", await pluginsToRulesDTS({
+    plugin: {
+        rules: {
+            'schema-with-id-at-root': {
+                create: () => null as any,
+                meta: {
+                    schema: {
+                        id: 'schemaId',
+                    },
+                },
+            },
+        },
     }
-}
-
-writeFileSync("typegen.d.ts", await flatConfigsToRulesDTS([config], {
-  includeAugmentation: false,
-}))
+}));
